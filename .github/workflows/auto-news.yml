@@ -1,0 +1,38 @@
+
+name: TasikNewsAuto
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */3 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    - name: Generate News
+      run: node generator/generate-news.js
+
+    - name: Commit Update
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        if git diff --staged --quiet; then
+          echo "No changes"
+        else
+          git commit -m "Auto news update"
+          git push
+        fi
