@@ -1,0 +1,9 @@
+{
+  "name": "tasik-news-auto",
+  "version": "1.0.0",
+  "description": "Tasik News Auto AI generator",
+  "main": "generator/generate-news.js",
+  "scripts": {
+    "generate": "node generator/generate-news.js"
+  }
+}
